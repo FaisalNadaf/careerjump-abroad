@@ -1,12 +1,10 @@
-/** Shortest time the intro plays, so the jump and wordmark can finish. */
-const MIN_MS = 2100;
-/** Never hold the page longer than this, even on a slow connection. */
-const MAX_MS = 4000;
+/** How long the intro shows before the curtain lifts, counted from navigation start. */
+const DURATION_MS = 1500;
 
 /**
- * Lifts the boot loader in index.html once the page has loaded. The timings
- * count from navigation start (performance.now()). Without the loader, or
- * when reduced motion is preferred, the page is released straight away.
+ * Lifts the boot loader in index.html 1.5s after navigation start (or at once
+ * if the app boots later than that). Without the loader, or when reduced
+ * motion is preferred, the page is released straight away.
  */
 export function dismissLoader() {
 	const root = document.documentElement;
@@ -19,28 +17,19 @@ export function dismissLoader() {
 		return;
 	}
 
-	let lifted = false;
-	const lift = () => {
-		if (lifted) return;
-		lifted = true;
-		window.setTimeout(
-			() => {
-				root.classList.add("is-loaded");
-				root.classList.remove("is-loading");
-				const remove = () => {
-					loader.remove();
-					root.classList.remove("is-loaded");
-				};
-				loader.addEventListener("transitionend", (event) => {
-					if (event.target === loader) remove();
-				});
-				window.setTimeout(remove, 1500); // in case transitionend never fires
-			},
-			Math.max(0, MIN_MS - performance.now()),
-		);
-	};
-
-	if (document.readyState === "complete") lift();
-	else window.addEventListener("load", lift, { once: true });
-	window.setTimeout(lift, Math.max(0, MAX_MS - performance.now()));
+	window.setTimeout(
+		() => {
+			root.classList.add("is-loaded");
+			root.classList.remove("is-loading");
+			const remove = () => {
+				loader.remove();
+				root.classList.remove("is-loaded");
+			};
+			loader.addEventListener("transitionend", (event) => {
+				if (event.target === loader) remove();
+			});
+			window.setTimeout(remove, 1200); // in case transitionend never fires
+		},
+		Math.max(0, DURATION_MS - performance.now()),
+	);
 }
