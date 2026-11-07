@@ -1,10 +1,17 @@
 [
   {
-    "file": "public/media/hero/hero-1280.mp4, public/media/hero/hero-mobile.mp4, public/media/hero/hero-poster.*",
+    "file": "public/media/hero/hero-1280.mp4, public/media/hero/hero-poster.*",
     "provider": "CareerJump (existing brand asset)",
     "sourceUrl": "Original CareerJump landing page (Desktop/CareerJump/index.html)",
     "license": "Owned/supplied by CareerJump",
-    "notes": "Re-encoded for web: 1280w desktop + 480x682 centre crop for mobile portrait, audio removed"
+    "notes": "Re-encoded for web: 1280w desktop, audio removed"
+  },
+  {
+    "file": "public/media/hero/hero-mobile.mp4, public/media/hero/hero-poster-mobile.webp",
+    "provider": "CareerJump (supplied by the client)",
+    "sourceUrl": "Client-supplied file \"Career Jump without audio (1).mp4\" (world cities montage)",
+    "license": "Owned/supplied by CareerJump",
+    "notes": "Mobile portrait hero. Re-encoded H.264 High 636x958 30fps (~1.1 Mbps, 40s), audio track removed, faststart; poster is the first frame"
   },
   {
     "file": "public/media/destinations/united-states.mp4",
