@@ -10,17 +10,11 @@
 		box-shadow var(--dur-base) ease;
 }
 
+/* Near-solid white, no backdrop blur: a blur over the playing hero video
+   re-samples it every frame and flickers in Chromium while scrolling. */
 .nav--scrolled {
-	background: rgb(255 255 255 / 0.88);
+	background: rgb(255 255 255 / 0.97);
 	box-shadow: var(--shadow-nav);
-	-webkit-backdrop-filter: saturate(160%) blur(14px);
-	backdrop-filter: saturate(160%) blur(14px);
-}
-
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-	.nav--scrolled {
-		background: rgba(255, 255, 255, 0.97);
-	}
 }
 
 .nav__inner {

@@ -43,10 +43,14 @@
 	opacity: 1;
 }
 
-/* Light overlay: keeps the video clear, darkens only where text sits. */
+/* Light overlay: keeps the video clear, darkens only where text sits.
+   Own compositor layer, so scrolling moves it with the video instead of
+   repainting it against each new video frame (avoids flicker in Chromium). */
 .hero__shade {
 	position: absolute;
 	inset: 0;
+	transform: translateZ(0);
+	backface-visibility: hidden;
 	background:
 		/* top band keeps the navbar logo legible */
 		linear-gradient(180deg, rgb(var(--navy-950-rgb) / 0.78) 0%, rgb(var(--navy-950-rgb) / 0.35) 11%, rgb(var(--navy-950-rgb) / 0) 24%),

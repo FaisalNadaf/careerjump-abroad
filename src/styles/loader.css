@@ -58,55 +58,6 @@
 		pointer-events: none;
 	}
 
-	/* ---------- Orbits: two slow rings, each carrying a small dot ---------- */
-	.loader__orbit {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: var(--size);
-		height: var(--size);
-		margin: calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
-		border: 1px solid rgb(255 255 255 / 0.07);
-		border-radius: 50%;
-		animation:
-			loader-orbit-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) both,
-			loader-spin var(--speed) linear infinite;
-	}
-
-	.loader__orbit::after {
-		content: "";
-		position: absolute;
-		top: -3px;
-		left: 50%;
-		width: 6px;
-		height: 6px;
-		margin-left: -3px;
-		border-radius: 50%;
-		background: #6198ff;
-		box-shadow: 0 0 12px 2px rgb(97 152 255 / 0.65);
-	}
-
-	.loader__orbit--a {
-		--size: min(380px, 82vw);
-		--speed: 7s;
-	}
-
-	.loader__orbit--b {
-		--size: min(620px, 128vw);
-		--speed: 12s;
-		animation-direction: normal, reverse;
-		border-style: dashed;
-		border-color: rgb(255 255 255 / 0.05);
-	}
-
-	.loader__orbit--b::after {
-		width: 4px;
-		height: 4px;
-		top: -2px;
-		margin-left: -2px;
-		background: #b9cffb;
-	}
-
 	/* ---------- Brand: the mark jumps in along a dotted arc ---------- */
 	.loader__stage {
 		position: relative;
@@ -369,19 +320,6 @@
 		}
 		30% {
 			transform: translate3d(0, -9px, 0);
-		}
-	}
-
-	@keyframes loader-orbit-in {
-		from {
-			opacity: 0;
-			scale: 0.6;
-		}
-	}
-
-	@keyframes loader-spin {
-		to {
-			rotate: 360deg;
 		}
 	}
 
