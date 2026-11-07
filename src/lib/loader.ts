@@ -1,8 +1,8 @@
 /** How long the intro shows before the curtain lifts, counted from navigation start. */
-const DURATION_MS = 1500;
+const DURATION_MS = 3000;
 
 /**
- * Lifts the boot loader in index.html 1.5s after navigation start (or at once
+ * Lifts the boot loader in index.html 3s after navigation start (or at once
  * if the app boots later than that). Without the loader, or when reduced
  * motion is preferred, the page is released straight away.
  */

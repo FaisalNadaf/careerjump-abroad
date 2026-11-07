@@ -50,7 +50,7 @@ src/
 
 - The animated CareerJump intro lives in `index.html` (`#loader`) with styles in
   `src/styles/loader.css`, so it paints before the app bundle runs.
-- It shows for 1.5s from navigation start, then lifts (`DURATION_MS` in
+- It shows for 3s from navigation start, then lifts (`DURATION_MS` in
   `src/lib/loader.ts`; the intro timings in `loader.css` are paced to fit). A CSS
   fallback hides it after 6s if the app fails to start.
 - It is skipped for visitors who prefer reduced motion and is never shown without JavaScript.
