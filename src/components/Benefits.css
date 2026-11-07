@@ -1,0 +1,360 @@
+.benefits {
+	padding: 0 var(--frame-gutter);
+}
+
+/* Full-width frame, matching the hero and final CTA; content aligns to --edge. */
+.benefits__panel {
+	--panel-px: max(20px, calc(var(--edge) - var(--frame-gutter)));
+	position: relative;
+	overflow: hidden;
+	padding: clamp(40px, 5vw, 72px) var(--panel-px);
+	border-radius: var(--radius-frame);
+	/* soft natural light from the top-left — depth without tint */
+	background:
+		radial-gradient(70% 60% at 0% 0%, rgb(255 255 255 / 0.75), transparent 65%),
+		var(--ivory);
+}
+
+/* ================================================================
+   Expanding gallery
+   ================================================================ */
+.bx {
+	--bx-radius: var(--radius-lg);
+	--bx-duration: 6s; /* time each benefit stays open */
+	display: flex;
+	gap: 12px;
+	height: clamp(460px, 58vh, 580px);
+}
+
+.bx__item {
+	position: relative;
+	flex: 1 1 0;
+	min-width: 0;
+	overflow: hidden;
+	isolation: isolate;
+	border-radius: var(--bx-radius);
+	background: var(--navy-900);
+	color: var(--white);
+	box-shadow: var(--shadow-md);
+	transition:
+		flex-grow 0.85s var(--ease-out),
+		box-shadow 0.5s ease;
+}
+
+.bx__item.is-active {
+	flex-grow: 4.6;
+	box-shadow: var(--shadow-lg);
+}
+
+/* Reduced motion: panels change size instantly, never animate. */
+@media (prefers-reduced-motion: reduce) {
+	.bx__item {
+		transition: box-shadow var(--dur-base) ease;
+	}
+}
+
+/* Entrance: panels rise in one after another, then the first one opens. */
+@media (prefers-reduced-motion: no-preference) {
+	.js .bx__item {
+		clip-path: inset(100% 0 0 0 round var(--bx-radius));
+		transition:
+			flex-grow 0.85s var(--ease-out),
+			box-shadow 0.5s ease,
+			clip-path 1s var(--ease-out) calc(var(--i) * 90ms);
+	}
+
+	.js .bx.is-in .bx__item {
+		clip-path: inset(0 0 0 0 round var(--bx-radius));
+	}
+}
+
+/* ---------- Media ---------- */
+.bx__media {
+	position: absolute;
+	inset: 0;
+	z-index: -2;
+}
+
+.bx__media picture,
+.bx__media img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.bx__media img {
+	transform: scale(1.14);
+	filter: saturate(0.55) brightness(0.82);
+	transition:
+		transform 1.4s var(--ease-out),
+		filter 0.9s ease;
+}
+
+.bx__item.is-active .bx__media img {
+	transform: scale(1.02);
+	filter: none;
+}
+
+.bx__item:not(.is-active):hover .bx__media img {
+	filter: saturate(0.85) brightness(0.92);
+}
+
+.bx__shade {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background:
+		linear-gradient(0deg, rgb(var(--navy-950-rgb) / 0.9) 0%, rgb(var(--navy-950-rgb) / 0.55) 34%, rgb(var(--navy-950-rgb) / 0.05) 64%),
+		rgb(var(--navy-900-rgb) / 0.28);
+	transition: background-color 0.8s ease;
+}
+
+.bx__item.is-active .bx__shade {
+	background-color: rgb(var(--navy-900-rgb) / 0);
+}
+
+/* ---------- Collapsed state ---------- */
+.bx__mini {
+	position: absolute;
+	inset: 24px 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	transition: opacity 0.3s ease;
+}
+
+.bx__item.is-active .bx__mini {
+	opacity: 0;
+}
+
+/* Self-explanatory label, read bottom-to-top */
+.bx__mini-label {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	min-height: 0;
+	overflow: hidden;
+	writing-mode: vertical-rl;
+	transform: rotate(180deg);
+	font-family: var(--font-display);
+	font-size: var(--fs-md);
+	font-weight: 500;
+	letter-spacing: 0.01em;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	text-shadow: 0 1px 12px rgb(var(--navy-950-rgb) / 0.6);
+}
+
+.bx__mini-plus {
+	display: grid;
+	place-items: center;
+	width: 40px;
+	height: 40px;
+	border: 1px solid rgba(255, 255, 255, 0.45);
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.1);
+	-webkit-backdrop-filter: blur(8px);
+	backdrop-filter: blur(8px);
+	transition:
+		background-color 0.3s ease,
+		color 0.3s ease,
+		transform 0.4s var(--ease-out);
+}
+
+.bx__item:hover .bx__mini-plus {
+	background: var(--white);
+	color: var(--navy-900);
+	transform: rotate(90deg);
+}
+
+/* ---------- Expanded content ---------- */
+.bx__content {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	/* fixed width so text never reflows while the panel animates */
+	width: min(560px, 52vw);
+	padding: clamp(24px, 3vw, 40px);
+	pointer-events: none;
+}
+
+.bx__content > * {
+	opacity: 0;
+	transform: translate3d(0, 18px, 0);
+	transition:
+		opacity 0.3s ease,
+		transform 0.3s ease;
+}
+
+.bx__item.is-active .bx__content > * {
+	opacity: 1;
+	transform: none;
+	transition:
+		opacity 0.6s ease,
+		transform 0.7s var(--ease-out);
+}
+
+.bx__item.is-active .bx__content > :nth-child(1) {
+	transition-delay: 0.32s;
+}
+.bx__item.is-active .bx__content > :nth-child(2) {
+	transition-delay: 0.42s;
+}
+
+.bx__title {
+	max-width: 20ch;
+	font-family: var(--font-display);
+	font-weight: 500;
+	font-size: var(--fs-title-1);
+	line-height: 1.1;
+	letter-spacing: -0.015em;
+	text-wrap: balance;
+	text-shadow: 0 2px 20px rgb(var(--navy-950-rgb) / 0.4);
+}
+
+.bx__text {
+	max-width: 44ch;
+	margin-top: 14px;
+	color: rgba(255, 255, 255, 0.86);
+	font-size: var(--fs-md);
+	line-height: 1.6;
+}
+
+/* Invisible clock: its animationend advances the gallery; pausing it pauses autoplay. */
+.bx__clock {
+	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.bx__clock-tick {
+	display: block;
+	width: 1px;
+	height: 1px;
+	animation: bx-clock var(--bx-duration) linear forwards;
+}
+
+.bx.is-paused .bx__clock-tick {
+	animation-play-state: paused;
+}
+
+@keyframes bx-clock {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(1px);
+	}
+}
+
+/* Reduced motion: no clock, so no auto-advance. */
+@media (prefers-reduced-motion: reduce) {
+	.bx__clock {
+		display: none;
+	}
+}
+
+/* Whole panel is the control. */
+.bx__trigger {
+	position: absolute;
+	inset: 0;
+	z-index: 3;
+	border-radius: inherit;
+	cursor: pointer;
+}
+
+.bx__item.is-active .bx__trigger {
+	cursor: default;
+}
+
+.bx__trigger:focus-visible {
+	outline: 3px solid var(--white);
+	outline-offset: -6px;
+	border-radius: var(--bx-radius);
+}
+
+/* ================================================================
+   Tablet: same gallery, tighter
+   ================================================================ */
+@media (max-width: 1023px) {
+	.bx {
+		gap: 8px;
+		height: 520px;
+	}
+
+	.bx__item.is-active {
+		flex-grow: 5.5;
+	}
+
+	.bx__content {
+		width: min(480px, 64vw);
+	}
+}
+
+/* ================================================================
+   Mobile: swipeable cards, every benefit fully visible
+   ================================================================ */
+@media (max-width: 767px) {
+	.bx {
+		height: auto;
+		gap: 12px;
+		margin-inline: calc(-1 * var(--panel-px));
+		padding: 4px var(--panel-px) 12px;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scroll-padding-inline: var(--panel-px);
+		scrollbar-width: none;
+	}
+
+	.bx::-webkit-scrollbar {
+		display: none;
+	}
+
+	.bx__item,
+	.bx__item.is-active {
+		flex: 0 0 82%;
+		aspect-ratio: 4 / 5.2;
+		scroll-snap-align: start;
+	}
+
+	.bx__media img,
+	.bx__item.is-active .bx__media img {
+		transform: none;
+		filter: none;
+	}
+
+	.bx__shade,
+	.bx__item.is-active .bx__shade {
+		background: linear-gradient(0deg, rgb(var(--navy-950-rgb) / 0.92) 0%, rgb(var(--navy-950-rgb) / 0.6) 40%, rgb(var(--navy-950-rgb) / 0) 70%);
+	}
+
+	.bx__mini,
+	.bx__trigger,
+	.bx__clock {
+		display: none;
+	}
+
+	.bx__content {
+		width: auto;
+		right: 0;
+		padding: 22px;
+	}
+
+	.bx__content > *,
+	.bx__item.is-active .bx__content > * {
+		opacity: 1;
+		transform: none;
+	}
+
+	.bx__title {
+		font-size: 1.5rem;
+	}
+
+	.bx__text {
+		font-size: var(--fs-body-sm);
+	}
+}

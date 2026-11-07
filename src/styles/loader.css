@@ -1,0 +1,419 @@
+/* ================================================================
+   Boot loader (index.html #loader)
+   Self-contained: it renders before the app's tokens and styles load.
+   Shown only when JavaScript runs (html.js) and motion is welcome;
+   src/lib/loader.ts lifts it once the page is ready (2.1s min, 4s max).
+   A CSS fallback hides it after 6s even if the app never boots.
+   ================================================================ */
+.loader {
+	display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	html.is-loading {
+		overflow: hidden;
+	}
+
+	.js .loader {
+		--tw: clamp(120px, 24vw, 230px); /* jump trail width */
+		--th: calc(var(--tw) * 0.52); /* jump trail height */
+		--mark: clamp(56px, 6vw, 76px);
+		--word-h: clamp(34px, 3.6vw, 46px);
+
+		position: fixed;
+		inset: 0;
+		z-index: 1000;
+		display: grid;
+		place-items: center;
+		background: #07122b;
+		color: #fff;
+		transition: transform 0.95s cubic-bezier(0.76, 0, 0.24, 1) 0.2s;
+		animation: loader-fallback 0.5s ease 6s forwards;
+	}
+
+	/* Curved trailing edge, so the exit reads as a lifting curtain */
+	.js .loader::after {
+		content: "";
+		position: absolute;
+		top: 100%;
+		left: -10%;
+		right: -10%;
+		height: 14vh;
+		margin-top: -1px;
+		border-radius: 0 0 50% 50% / 0 0 100% 100%;
+		background: #07122b;
+	}
+
+	/* Soft brand glow that breathes behind the logo */
+	.js .loader::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background: radial-gradient(38% 34% at 50% 50%, rgb(26 86 219 / 0.34), transparent 72%);
+		animation: loader-breathe 2.8s ease-in-out infinite alternate;
+	}
+
+	html.is-loaded .loader {
+		transform: translate3d(0, calc(-100% - 14vh), 0);
+		pointer-events: none;
+	}
+
+	/* ---------- Orbits: two slow rings, each carrying a small dot ---------- */
+	.loader__orbit {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: var(--size);
+		height: var(--size);
+		margin: calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
+		border: 1px solid rgb(255 255 255 / 0.07);
+		border-radius: 50%;
+		animation:
+			loader-orbit-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) both,
+			loader-spin var(--speed) linear infinite;
+	}
+
+	.loader__orbit::after {
+		content: "";
+		position: absolute;
+		top: -3px;
+		left: 50%;
+		width: 6px;
+		height: 6px;
+		margin-left: -3px;
+		border-radius: 50%;
+		background: #6198ff;
+		box-shadow: 0 0 12px 2px rgb(97 152 255 / 0.65);
+	}
+
+	.loader__orbit--a {
+		--size: min(380px, 82vw);
+		--speed: 7s;
+	}
+
+	.loader__orbit--b {
+		--size: min(620px, 128vw);
+		--speed: 12s;
+		animation-direction: normal, reverse;
+		border-style: dashed;
+		border-color: rgb(255 255 255 / 0.05);
+	}
+
+	.loader__orbit--b::after {
+		width: 4px;
+		height: 4px;
+		top: -2px;
+		margin-left: -2px;
+		background: #b9cffb;
+	}
+
+	/* ---------- Brand: the mark jumps in along a dotted arc ---------- */
+	.loader__stage {
+		position: relative;
+		display: grid;
+		justify-items: center;
+		gap: clamp(18px, 2.4vw, 26px);
+		transition:
+			opacity 0.35s ease,
+			transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	html.is-loaded .loader__stage {
+		opacity: 0;
+		transform: translate3d(0, -28px, 0) scale(0.97);
+	}
+
+	.loader__brand {
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: clamp(12px, 1.4vw, 18px);
+	}
+
+	.loader__trail {
+		position: absolute;
+		left: calc(var(--mark) / 2 - var(--tw));
+		bottom: calc(var(--mark) / 2);
+		width: var(--tw);
+		height: var(--th);
+		overflow: visible;
+		animation: loader-fade-out 0.6s ease 1.7s forwards;
+	}
+
+	.loader__trail-dots {
+		fill: none;
+		stroke: rgb(255 255 255 / 0.45);
+		stroke-width: 2.2;
+		stroke-linecap: round;
+		stroke-dasharray: 0.1 8;
+		vector-effect: non-scaling-stroke;
+	}
+
+	.loader__trail-reveal {
+		fill: none;
+		stroke: #fff;
+		stroke-width: 12;
+		stroke-dasharray: 1;
+		stroke-dashoffset: 1;
+		animation: loader-draw 0.78s linear 0.15s forwards;
+	}
+
+	.loader__mark {
+		position: relative;
+		z-index: 1;
+		flex: none;
+		width: var(--mark);
+		height: var(--mark);
+		transform-origin: 50% 100%;
+		animation: loader-jump 1.05s linear 0.15s both;
+	}
+
+	.loader__mark img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		border-radius: 24%;
+		box-shadow: 0 14px 32px -12px rgb(0 0 0 / 0.6);
+		/* if the page is still loading, keep hopping gently */
+		animation: loader-hop 1.4s cubic-bezier(0.45, 0, 0.55, 1) 2.3s infinite;
+	}
+
+	/* Landing ripple */
+	.loader__mark::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		border: 1.5px solid rgb(97 152 255 / 0.8);
+		border-radius: 24%;
+		opacity: 0;
+		animation: loader-ripple 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.95s;
+	}
+
+	.loader__word {
+		position: relative;
+		display: block;
+		height: var(--word-h);
+	}
+
+	.loader__word img {
+		display: block;
+		width: auto;
+		height: 100%;
+		clip-path: inset(0 100% 0 0);
+		animation: loader-wipe 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.98s forwards;
+	}
+
+	/* One light sweep across the letters once they are in */
+	.loader__word::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(100deg, transparent 38%, rgb(255 255 255 / 0.85) 50%, transparent 62%) no-repeat;
+		background-size: 260% 100%;
+		background-position: 130% 0;
+		-webkit-mask: url("/brand/careerjump-wordmark-white.webp") center / 100% 100% no-repeat;
+		mask: url("/brand/careerjump-wordmark-white.webp") center / 100% 100% no-repeat;
+		animation: loader-sheen 1s ease-in-out 1.75s forwards;
+	}
+
+	/* ---------- Tagline ---------- */
+	.loader__tag {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		margin: 0;
+		color: rgb(255 255 255 / 0.72);
+		font-family: "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+		font-size: clamp(10px, 1vw, 12px);
+		font-weight: 600;
+		letter-spacing: 0.32em;
+		text-transform: uppercase;
+		white-space: nowrap;
+	}
+
+	.loader__tag::before,
+	.loader__tag::after {
+		content: "";
+		width: clamp(18px, 3vw, 36px);
+		height: 1px;
+		background: rgb(97 152 255 / 0.8);
+		transform: scaleX(0);
+		animation: loader-grow 0.6s cubic-bezier(0.22, 1, 0.36, 1) 1.3s forwards;
+	}
+
+	.loader__tag::before {
+		transform-origin: right center;
+	}
+
+	.loader__tag::after {
+		transform-origin: left center;
+	}
+
+	.loader__tag span {
+		display: inline-block;
+		opacity: 0;
+		animation: loader-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) 1.35s forwards;
+	}
+
+	.loader__tag span:nth-of-type(2) {
+		animation-delay: 1.45s;
+	}
+
+	.loader__tag span:nth-of-type(3) {
+		animation-delay: 1.55s;
+		margin-right: -0.32em; /* cancel trailing letter-spacing so the line is centred */
+	}
+
+	@media (max-width: 479px) {
+		.loader__tag {
+			gap: 10px;
+			letter-spacing: 0.24em;
+		}
+
+		.loader__tag::before,
+		.loader__tag::after {
+			display: none;
+		}
+
+		.loader__tag span:nth-of-type(3) {
+			margin-right: -0.24em;
+		}
+	}
+
+	@keyframes loader-jump {
+		0% {
+			opacity: 0;
+			transform: translate3d(calc(var(--tw) * -1), 0, 0) scale(0.55) rotate(-16deg);
+		}
+		8% {
+			opacity: 1;
+		}
+		18.75% {
+			transform: translate3d(calc(var(--tw) * -0.75), calc(var(--th) * -0.5), 0) scale(0.68) rotate(-11deg);
+		}
+		37.5% {
+			transform: translate3d(calc(var(--tw) * -0.5), calc(var(--th) * -0.667), 0) scale(0.8) rotate(-5deg);
+		}
+		56.25% {
+			transform: translate3d(calc(var(--tw) * -0.25), calc(var(--th) * -0.5), 0) scale(0.92) rotate(2deg);
+		}
+		75% {
+			opacity: 1;
+			transform: translate3d(0, 0, 0) scale(1.1, 0.86);
+		}
+		87% {
+			transform: translate3d(0, -6px, 0) scale(0.96, 1.05);
+		}
+		100% {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	@keyframes loader-draw {
+		to {
+			stroke-dashoffset: 0;
+		}
+	}
+
+	@keyframes loader-ripple {
+		from {
+			opacity: 0.9;
+			transform: scale(1);
+		}
+		to {
+			opacity: 0;
+			transform: scale(1.7);
+		}
+	}
+
+	@keyframes loader-wipe {
+		from {
+			clip-path: inset(0 100% 0 0);
+			transform: translate3d(-10px, 0, 0);
+		}
+		to {
+			clip-path: inset(0 0 0 0);
+			transform: none;
+		}
+	}
+
+	@keyframes loader-sheen {
+		to {
+			background-position: -30% 0;
+		}
+	}
+
+	@keyframes loader-grow {
+		to {
+			transform: scaleX(1);
+		}
+	}
+
+	@keyframes loader-rise {
+		from {
+			opacity: 0;
+			transform: translate3d(0, 10px, 0);
+		}
+		to {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	@keyframes loader-hop {
+		0%,
+		60%,
+		100% {
+			transform: none;
+		}
+		30% {
+			transform: translate3d(0, -9px, 0);
+		}
+	}
+
+	@keyframes loader-orbit-in {
+		from {
+			opacity: 0;
+			scale: 0.6;
+		}
+	}
+
+	@keyframes loader-spin {
+		to {
+			rotate: 360deg;
+		}
+	}
+
+	@keyframes loader-breathe {
+		from {
+			opacity: 0.65;
+			transform: scale(0.92);
+		}
+		to {
+			opacity: 1;
+			transform: scale(1.08);
+		}
+	}
+
+	@keyframes loader-fade-out {
+		to {
+			opacity: 0;
+		}
+	}
+
+	@keyframes loader-fallback {
+		to {
+			opacity: 0;
+			visibility: hidden;
+			pointer-events: none;
+		}
+	}
+}
+
+/* Hold the hero's entrance until the curtain lifts */
+html.is-loading .hero [data-enter],
+html.is-loading .hero__line > span,
+html.is-loading .hero__poster {
+	animation-play-state: paused;
+}

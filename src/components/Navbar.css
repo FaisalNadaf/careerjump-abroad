@@ -1,0 +1,81 @@
+/* Fixed bar: transparent over the hero video, solid white after scrolling. */
+.nav {
+	position: fixed;
+	inset: 0 0 auto;
+	z-index: 50;
+	height: var(--nav-h);
+	background: rgb(255 255 255 / 0);
+	transition:
+		background-color var(--dur-base) ease,
+		box-shadow var(--dur-base) ease;
+}
+
+.nav--scrolled {
+	background: rgb(255 255 255 / 0.88);
+	box-shadow: var(--shadow-nav);
+	-webkit-backdrop-filter: saturate(160%) blur(14px);
+	backdrop-filter: saturate(160%) blur(14px);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+	.nav--scrolled {
+		background: rgba(255, 255, 255, 0.97);
+	}
+}
+
+.nav__inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	height: 100%;
+	padding-inline: var(--edge);
+}
+
+.nav__brand {
+	display: grid;
+	border-radius: var(--radius-xs);
+	text-decoration: none;
+}
+
+.nav--overlay .nav__brand:focus-visible {
+	outline-color: var(--white);
+}
+
+/* Both logo versions are stacked; the visible one cross-fades with the bar. */
+.nav__logo {
+	grid-area: 1 / 1;
+	transition: opacity 0.35s ease;
+}
+
+.nav__logo img {
+	width: auto;
+	height: 38px;
+}
+
+/* Two-layer shadow so the white/blue wordmark reads on any video frame */
+.nav--overlay .nav__logo--light img {
+	filter: drop-shadow(0 1px 2px rgb(var(--navy-950-rgb) / 0.7)) drop-shadow(0 2px 14px rgb(var(--navy-950-rgb) / 0.6));
+}
+
+.nav--overlay .nav__logo--dark,
+.nav--scrolled .nav__logo--light {
+	opacity: 0;
+}
+
+@media (max-width: 767px) {
+	.nav__logo img {
+		height: 31px;
+	}
+}
+
+@media (max-width: 359px) {
+	.nav__logo img {
+		height: 26px;
+	}
+
+	.nav .btn--sm {
+		padding-left: 14px;
+		font-size: var(--fs-sm);
+	}
+}

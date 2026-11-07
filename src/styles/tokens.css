@@ -1,0 +1,136 @@
+/* ================================================================
+   CareerJump design tokens — light theme
+   One source of truth for colour, type, radius, depth, spacing, motion.
+   ================================================================ */
+:root {
+	color-scheme: light;
+
+	/* ---------- Brand colour ---------- */
+	--navy-950: #07122b;
+	--navy-900: #0d1b3e; /* brand navy / primary ink */
+	--navy-800: #16284f;
+	--navy-700: #24365f;
+	--blue-700: #1546b8; /* hover */
+	--blue-600: #1a56db; /* brand primary */
+	--blue-400: #6198ff; /* logo accent; on dark only */
+	--blue-200: #b9cffb;
+	--blue-100: #dbe6fc;
+	--blue-50: #eef4ff;
+
+	/* RGB channels for consistent alpha tints: rgb(var(--navy-950-rgb) / 0.5) */
+	--navy-950-rgb: 7 18 43;
+	--navy-900-rgb: 13 27 62;
+	--blue-600-rgb: 26 86 219;
+	--blue-400-rgb: 97 152 255;
+
+	/* ---------- Surfaces & text ---------- */
+	--white: #ffffff;
+	--surface: #ffffff;
+	--ivory: #f6f3ed; /* warm tint for alternating surfaces */
+	--ivory-deep: #ede8de;
+	--surface-sunken: #faf8f4;
+	--ink: var(--navy-900);
+	--ink-soft: #3b4a6b; /* 8.8:1 on white */
+	--ink-muted: #5b6884; /* ≥4.9:1 on white and ivory */
+	--placeholder: #6f7a92; /* 4.5:1 on white */
+	--on-dark: rgb(255 255 255 / 0.92);
+	--on-dark-muted: rgb(255 255 255 / 0.78);
+	--line: rgb(var(--navy-900-rgb) / 0.1);
+	--line-strong: rgb(var(--navy-900-rgb) / 0.18);
+	--line-on-dark: rgb(255 255 255 / 0.3);
+
+	/* ---------- Feedback ---------- */
+	--danger: #b42323;
+	--danger-bg: #fdf1f1;
+	--success: #11764f;
+	--success-bg: #e3f5ec;
+	--focus-ring: 0 0 0 3px rgb(var(--blue-600-rgb) / 0.28);
+	--focus-ring-danger: 0 0 0 3px rgb(180 35 35 / 0.18);
+
+	/* ---------- Typography ---------- */
+	--font-display: "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+	--font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+		sans-serif;
+
+	/* Display (serif) */
+	--fs-display-1: clamp(2.6rem, 1.1rem + 4.6vw, 6rem); /* hero */
+	--fs-display-2: clamp(2.25rem, 1rem + 3.4vw, 4.5rem); /* closing statement */
+	--fs-display-3: clamp(2rem, 1.2rem + 2.6vw, 3.5rem); /* section titles */
+	--fs-title-1: clamp(1.625rem, 1.15rem + 1vw, 2.25rem); /* feature titles */
+	--fs-title-2: clamp(1.1875rem, 1rem + 0.5vw, 1.5rem); /* card / row titles */
+	--fs-title-3: 1.125rem;
+
+	/* Text (sans) */
+	--fs-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+	--fs-md: 1.0625rem;
+	--fs-body: 1rem;
+	--fs-body-sm: 0.9375rem;
+	--fs-sm: 0.875rem;
+	--fs-xs: 0.8125rem;
+	--fs-label: 0.75rem; /* uppercase labels — never smaller */
+
+	--lh-display: 1.04;
+	--lh-title: 1.18;
+	--lh-snug: 1.4;
+	--lh-body: 1.65;
+
+	--ls-display: -0.022em;
+	--ls-title: -0.01em;
+	--ls-label: 0.14em;
+
+	/* ---------- Radius ---------- */
+	--radius-xs: 6px;
+	--radius-sm: 12px; /* inputs, notes, small controls */
+	--radius-md: 16px; /* thumbnails, consent */
+	--radius-lg: 22px; /* cards, panels */
+	--radius-frame: clamp(20px, 2.2vw, 32px); /* full-width frames */
+	--radius-pill: 999px;
+
+	/* ---------- Depth: soft, layered, navy-tinted (never pure black) ---------- */
+	--shadow-xs: 0 1px 2px rgb(var(--navy-900-rgb) / 0.06);
+	--shadow-sm: 0 1px 2px rgb(var(--navy-900-rgb) / 0.05), 0 4px 12px -4px rgb(var(--navy-900-rgb) / 0.1);
+	--shadow-md: 0 2px 4px -1px rgb(var(--navy-900-rgb) / 0.05), 0 14px 28px -10px rgb(var(--navy-900-rgb) / 0.16);
+	--shadow-lg: 0 4px 8px -2px rgb(var(--navy-900-rgb) / 0.05), 0 28px 56px -20px rgb(var(--navy-900-rgb) / 0.26);
+	--shadow-xl: 0 8px 16px -6px rgb(var(--navy-900-rgb) / 0.06), 0 44px 88px -28px rgb(var(--navy-900-rgb) / 0.34);
+	--shadow-brand: 0 1px 2px rgb(var(--navy-900-rgb) / 0.12), 0 10px 24px -12px rgb(var(--blue-600-rgb) / 0.65);
+	--shadow-brand-hover: 0 2px 4px rgb(var(--navy-900-rgb) / 0.1), 0 18px 32px -14px rgb(var(--blue-600-rgb) / 0.7);
+	--shadow-on-dark: 0 12px 30px -14px rgb(var(--navy-950-rgb) / 0.6);
+	--shadow-on-dark-hover: 0 18px 36px -16px rgb(var(--navy-950-rgb) / 0.7);
+	--shadow-nav: 0 1px 0 var(--line), 0 10px 28px -22px rgb(var(--navy-900-rgb) / 0.45);
+	--text-shadow-on-media: 0 1px 14px rgb(var(--navy-950-rgb) / 0.55);
+
+	/* ---------- Spacing (4px base) ---------- */
+	--space-1: 4px;
+	--space-2: 8px;
+	--space-3: 12px;
+	--space-4: 16px;
+	--space-5: 20px;
+	--space-6: 24px;
+	--space-8: 32px;
+	--space-10: 40px;
+	--space-12: 48px;
+	--space-16: 64px;
+
+	/* ---------- Motion ---------- */
+	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+	--ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+	--dur-fast: 0.2s;
+	--dur-base: 0.3s;
+	--dur-slow: 0.6s;
+
+	/* ---------- Layout ---------- */
+	--container: 1240px;
+	--gutter: clamp(20px, 4vw, 40px);
+	/* Shared horizontal edge so navbar, hero copy and sections align exactly. */
+	--edge: max(var(--gutter), calc((100vw - var(--container)) / 2));
+	--frame-gutter: clamp(8px, 1.3vw, 20px);
+	--nav-h: 76px;
+	--section-y: clamp(48px, 5vw, 80px);
+	--head-gap: clamp(28px, 3.5vw, 44px); /* heading block → content */
+}
+
+@media (max-width: 767px) {
+	:root {
+		--nav-h: 64px;
+	}
+}

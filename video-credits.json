@@ -1,0 +1,93 @@
+[
+  {
+    "file": "public/media/hero/hero-1280.mp4, public/media/hero/hero-mobile.mp4, public/media/hero/hero-poster.*",
+    "provider": "CareerJump (existing brand asset)",
+    "sourceUrl": "Original CareerJump landing page (Desktop/CareerJump/index.html)",
+    "license": "Owned/supplied by CareerJump",
+    "notes": "Re-encoded for web: 1280w desktop + 480x682 centre crop for mobile portrait, audio removed"
+  },
+  {
+    "file": "public/media/destinations/united-states.mp4",
+    "provider": "pexels",
+    "sourceId": "pexels-video:29989204",
+    "author": "Sophia Zhang",
+    "authorUrl": "https://www.pexels.com/@sophia-zhang-1712464920",
+    "sourceUrl": "https://www.pexels.com/video/new-york-city-skyline-at-night-with-empire-state-building-29989204/",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "attributionRequired": false,
+    "notes": "Trimmed, cropped to 3:5, re-encoded H.264 540x900 24fps, audio removed"
+  },
+  {
+    "file": "public/media/destinations/united-kingdom.mp4",
+    "provider": "pexels",
+    "sourceId": "pexels-video:39282852",
+    "author": "Amit Tandel",
+    "authorUrl": "https://www.pexels.com/@amit-tandel-1239986710",
+    "sourceUrl": "https://www.pexels.com/video/iconic-big-ben-tower-against-blue-sky-39282852/",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "attributionRequired": false,
+    "notes": "Trimmed, cropped to 3:5, re-encoded H.264 540x900 24fps, audio removed"
+  },
+  {
+    "file": "public/media/destinations/europe.mp4",
+    "provider": "pexels",
+    "sourceId": "pexels-video:31449922",
+    "author": "Aleksandr Fedorov",
+    "authorUrl": "https://www.pexels.com/@aleksandr-fedorov-2150945115",
+    "sourceUrl": "https://www.pexels.com/video/stunning-daytime-view-of-eiffel-tower-31449922/",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "attributionRequired": false,
+    "notes": "Trimmed, cropped to 3:5, re-encoded H.264 540x900 24fps, audio removed"
+  },
+  {
+    "file": "public/media/destinations/singapore.mp4",
+    "provider": "pexels",
+    "sourceId": "pexels-video:32103493",
+    "author": "Nelemson G",
+    "authorUrl": "https://www.pexels.com/@nelemson",
+    "sourceUrl": "https://www.pexels.com/video/stunning-aerial-view-of-singapore-skyline-32103493/",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "attributionRequired": false,
+    "notes": "Trimmed, cropped to 3:5, re-encoded H.264 540x900 24fps, audio removed"
+  },
+  {
+    "file": "public/media/destinations/australia.mp4",
+    "provider": "pexels",
+    "sourceId": "pexels-video:37534300",
+    "author": "David Pickup |  Advertising & Marketing  🇬🇧",
+    "authorUrl": "https://www.pexels.com/@davidpickup",
+    "sourceUrl": "https://www.pexels.com/video/sydney-opera-house-sunny-day-view-37534300/",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "attributionRequired": false,
+    "notes": "Trimmed, cropped to 3:5, re-encoded H.264 540x900 24fps, audio removed"
+  },
+  {
+    "file": "public/media/destinations/canada.mp4",
+    "provider": "pexels",
+    "sourceId": "pexels-video:37595645",
+    "author": "Michael Solo",
+    "authorUrl": "https://www.pexels.com/@roboseal34",
+    "sourceUrl": "https://www.pexels.com/video/drone-aerial-view-of-downtown-vancouver-skyline-37595645/",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "attributionRequired": false,
+    "notes": "Trimmed, cropped to 3:5, re-encoded H.264 540x900 24fps, audio removed"
+  },
+  {
+    "file": "public/media/destinations/ireland.mp4",
+    "provider": "pexels",
+    "sourceId": "pexels-video:38458146",
+    "author": "Selim Karadayı",
+    "authorUrl": "https://www.pexels.com/@selimkrdy",
+    "sourceUrl": "https://www.pexels.com/video/aerial-view-of-liffey-river-in-dublin-ireland-38458146/",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "attributionRequired": false,
+    "notes": "Trimmed, cropped to 3:5, re-encoded H.264 540x900 24fps, audio removed"
+  }
+]

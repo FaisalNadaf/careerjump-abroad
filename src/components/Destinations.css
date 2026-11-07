@@ -1,0 +1,275 @@
+.section-head--single {
+	display: block;
+}
+
+/* Heading spans the full content width (two balanced lines on desktop). */
+.section-head--single .section-title {
+	max-width: none;
+	font-size: var(--fs-display-3);
+}
+
+/* ---------- Carousel ---------- */
+.dest-carousel {
+	position: relative;
+}
+
+/* Mouse drag-to-scroll (touch devices swipe natively). */
+@media (hover: hover) and (pointer: fine) {
+	.dest-track {
+		cursor: grab;
+	}
+}
+
+.dest-track.is-dragging {
+	cursor: grabbing;
+	scroll-snap-type: none;
+	scroll-behavior: auto;
+	user-select: none;
+}
+
+.dest-track.is-dragging .dest-card {
+	pointer-events: none;
+}
+
+.dest-track img,
+.dest-track video {
+	-webkit-user-drag: none;
+	user-select: none;
+}
+
+.dest-track {
+	display: flex;
+	gap: clamp(16px, 1.8vw, 26px);
+	overflow-x: auto;
+	overscroll-behavior-x: contain;
+	scroll-snap-type: x mandatory;
+	scroll-padding-inline: var(--edge);
+	padding: 12px var(--edge) 28px;
+	scrollbar-width: none;
+	-webkit-overflow-scrolling: touch;
+}
+
+.dest-track::-webkit-scrollbar {
+	display: none;
+}
+
+.dest-track__item {
+	flex: 0 0 clamp(220px, 18.5vw, 268px);
+	scroll-snap-align: start;
+}
+
+/* Arrow buttons overlaid on the carousel edges (white = back, navy = forward). */
+.carousel-nav__btn {
+	position: absolute;
+	top: calc(50% - 8px);
+	z-index: 2;
+	display: grid;
+	place-items: center;
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	transform: translateY(-50%);
+	box-shadow: var(--shadow-md);
+	transition:
+		opacity 0.3s ease,
+		visibility 0.3s ease,
+		transform 0.3s var(--ease-out),
+		background-color 0.25s ease,
+		color 0.25s ease;
+}
+
+/* Pinned near the screen edges so they never sit on top of a card's content. */
+.carousel-nav__btn--prev {
+	left: clamp(12px, 1.6vw, 32px);
+	background: var(--white);
+	color: var(--navy-900);
+}
+
+.carousel-nav__btn--next {
+	right: clamp(12px, 1.6vw, 32px);
+	background: var(--navy-900);
+	color: var(--white);
+}
+
+.carousel-nav__btn:hover:not(:disabled) {
+	transform: translateY(-50%) scale(1.06);
+}
+
+.carousel-nav__btn--prev:hover:not(:disabled) {
+	background: var(--ivory);
+}
+
+.carousel-nav__btn--next:hover:not(:disabled) {
+	background: var(--blue-600);
+}
+
+.carousel-nav__btn:disabled {
+	opacity: 0;
+	visibility: hidden;
+}
+
+.carousel-nav__btn:focus-visible {
+	outline: 3px solid var(--blue-600);
+	outline-offset: 3px;
+	border-radius: 50%;
+}
+
+/* ---------- Card: a full capsule ---------- */
+.dest-card {
+	position: relative;
+	display: block;
+	width: 100%;
+	aspect-ratio: 13 / 20;
+	overflow: hidden;
+	isolation: isolate;
+	border-radius: var(--radius-pill);
+	background: var(--navy-900);
+	color: var(--white);
+	text-align: center;
+	box-shadow: var(--shadow-md);
+	/* Safari: keep the video clipped to the capsule */
+	-webkit-mask-image: -webkit-radial-gradient(white, black);
+	transition:
+		transform 0.5s var(--ease-out),
+		box-shadow 0.5s var(--ease-out);
+}
+
+.dest-card:hover {
+	transform: translateY(-8px);
+	box-shadow: var(--shadow-lg);
+}
+
+.dest-card:focus-visible {
+	outline: 3px solid var(--blue-600);
+	outline-offset: 4px;
+	border-radius: var(--radius-pill);
+}
+
+.dest-card__media {
+	position: absolute;
+	inset: 0;
+	z-index: -2;
+	transition: transform 1.4s var(--ease-out);
+}
+
+.dest-card:hover .dest-card__media {
+	transform: scale(1.06);
+}
+
+.dest-card__media picture,
+.dest-card__media img,
+.dest-card__video {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.dest-card__video {
+	opacity: 0;
+	transition: opacity 0.8s ease;
+}
+
+.dest-card__video.is-ready {
+	opacity: 1;
+}
+
+/* Top shade keeps the name readable over sky; light bottom shade for the arrow. */
+.dest-card__shade {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background:
+		linear-gradient(180deg, rgb(var(--navy-950-rgb) / 0.62) 0%, rgb(var(--navy-950-rgb) / 0.28) 24%, rgb(var(--navy-950-rgb) / 0) 44%),
+		linear-gradient(0deg, rgb(var(--navy-950-rgb) / 0.45) 0%, rgb(var(--navy-950-rgb) / 0) 26%);
+}
+
+.dest-card__top {
+	position: absolute;
+	inset: 13% 12% auto;
+	display: grid;
+	justify-items: center;
+	gap: 8px;
+}
+
+.dest-card__name {
+	font-family: var(--font-display);
+	font-weight: 500;
+	font-size: var(--fs-title-1);
+	line-height: 1.02;
+	letter-spacing: -0.015em;
+	text-wrap: balance;
+	text-shadow: 0 2px 18px rgb(var(--navy-950-rgb) / 0.55);
+}
+
+.dest-card__city {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	color: rgba(255, 255, 255, 0.88);
+	font-size: var(--fs-label);
+	font-weight: 700;
+	letter-spacing: var(--ls-label);
+	text-transform: uppercase;
+	text-shadow: 0 1px 10px rgb(var(--navy-950-rgb) / 0.6);
+}
+
+.dest-card__go {
+	position: absolute;
+	left: 50%;
+	bottom: 7%;
+	display: grid;
+	place-items: center;
+	width: 48px;
+	height: 48px;
+	border: 1px solid rgba(255, 255, 255, 0.4);
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.16);
+	-webkit-backdrop-filter: blur(8px);
+	backdrop-filter: blur(8px);
+	transform: translateX(-50%);
+	transition:
+		background-color 0.35s ease,
+		color 0.35s ease,
+		border-color 0.35s ease,
+		transform 0.35s var(--ease-out);
+}
+
+.dest-card:hover .dest-card__go,
+.dest-card:focus-visible .dest-card__go {
+	border-color: var(--white);
+	background: var(--white);
+	color: var(--navy-900);
+	transform: translateX(-50%) scale(1.08);
+}
+
+/* ---------- Progress line: one segment per destination ---------- */
+.dest-progress {
+	position: relative;
+	height: 2px;
+	margin-top: 8px;
+	overflow: hidden;
+	border-radius: 2px;
+	background: var(--line);
+}
+
+.dest-progress__thumb {
+	--pos: 0;
+	position: absolute;
+	inset: 0 auto 0 0;
+	width: calc(100% / 7);
+	background: var(--navy-900);
+	border-radius: inherit;
+	transform: translateX(calc(var(--pos) * 100%));
+}
+
+@media (max-width: 767px) {
+	.dest-track__item {
+		flex-basis: min(62vw, 250px);
+	}
+
+	.carousel-nav__btn {
+		display: none;
+	}
+}

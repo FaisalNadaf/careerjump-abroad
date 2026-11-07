@@ -1,0 +1,9 @@
+node_modules
+dist
+# Environment files (keep real values out of git; the template is committed)
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+.img-previews
