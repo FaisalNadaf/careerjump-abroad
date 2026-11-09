@@ -1,0 +1,36 @@
+# CareerJump: server settings for Hostinger (LiteSpeed/Apache).
+# Copied into dist/ by the build, so it lands in public_html with the site.
+# HTTPS redirect is not set here: use hPanel → Security → SSL → Force HTTPS.
+
+# Don't list folder contents
+Options -Indexes
+
+# Correct type for the web app manifest
+AddType application/manifest+json .webmanifest
+
+<IfModule mod_headers.c>
+	# Security headers that a <meta> tag can't set (see docs/deployment-security.md)
+	Header always set X-Content-Type-Options "nosniff"
+	Header always set X-Frame-Options "DENY"
+	Header always set Content-Security-Policy "frame-ancestors 'none'"
+	Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+	Header always set Referrer-Policy "strict-origin-when-cross-origin"
+	# Browsers ignore this until the site is served over HTTPS.
+	Header always set Strict-Transport-Security "max-age=31536000"
+
+	# The page itself: check for a new version on every visit, so deploys show up at once
+	<FilesMatch "\.html$">
+		Header set Cache-Control "no-cache"
+	</FilesMatch>
+
+	# Fonts, images and videos: 30 days. Their names stay the same when replaced,
+	# so they are not cached "forever".
+	<FilesMatch "\.(woff2?|jpe?g|png|webp|avif|gif|svg|ico|mp4|webm)$">
+		Header set Cache-Control "public, max-age=2592000"
+	</FilesMatch>
+
+	# Built JS/CSS carry a content hash in the name (index-AbC123xY.js): cache for a year
+	<FilesMatch "-[A-Za-z0-9_-]{8}\.(js|css)$">
+		Header set Cache-Control "public, max-age=31536000, immutable"
+	</FilesMatch>
+</IfModule>

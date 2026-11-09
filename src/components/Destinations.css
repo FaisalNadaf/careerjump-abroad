@@ -203,18 +203,6 @@
 	text-shadow: 0 2px 18px rgb(var(--navy-950-rgb) / 0.55);
 }
 
-.dest-card__city {
-	display: inline-flex;
-	align-items: center;
-	gap: 5px;
-	color: rgba(255, 255, 255, 0.88);
-	font-size: var(--fs-label);
-	font-weight: 700;
-	letter-spacing: var(--ls-label);
-	text-transform: uppercase;
-	text-shadow: 0 1px 10px rgb(var(--navy-950-rgb) / 0.6);
-}
-
 .dest-card__go {
 	position: absolute;
 	left: 50%;

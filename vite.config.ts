@@ -29,6 +29,41 @@ function siteMeta(siteUrl: string): Plugin {
 	};
 }
 
+/**
+ * With a production URL (VITE_SITE_URL), the build writes sitemap.xml and adds
+ * its absolute Sitemap line to robots.txt. Without one, public/robots.txt ships
+ * unchanged, because a Sitemap line must be an absolute URL.
+ */
+function crawlerFiles(siteUrl: string): Plugin {
+	const base = siteUrl.trim().replace(/\/+$/, "");
+	return {
+		name: "careerjump-crawler-files",
+		apply: "build",
+		// public/ is copied into the output folder before the bundle is written,
+		// so robots.txt is already there.
+		async writeBundle({ dir }) {
+			if (!base || !dir) return;
+			if (!/^https?:\/\/[^/?#]+$/i.test(base)) {
+				this.warn(`VITE_SITE_URL "${base}" is not an origin like https://www.example.com; skipped sitemap.xml.`);
+				return;
+			}
+			const today = new Date().toISOString().slice(0, 10);
+			const sitemap = [
+				'<?xml version="1.0" encoding="UTF-8"?>',
+				'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+				"\t<url>",
+				`\t\t<loc>${base}/</loc>`,
+				`\t\t<lastmod>${today}</lastmod>`,
+				"\t</url>",
+				"</urlset>",
+				"",
+			].join("\n");
+			await this.fs.writeFile(`${dir}/sitemap.xml`, sitemap);
+			await this.fs.appendFile(`${dir}/robots.txt`, `\nSitemap: ${base}/sitemap.xml\n`);
+		},
+	};
+}
+
 async function sha256Base64(text: string): Promise<string> {
 	const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
 	return btoa(String.fromCharCode(...new Uint8Array(digest)));
@@ -96,6 +131,7 @@ export default defineConfig(({ mode }) => {
 		plugins: [
 			react(),
 			siteMeta(env.VITE_SITE_URL ?? ""),
+			crawlerFiles(env.VITE_SITE_URL ?? ""),
 			contentSecurityPolicy((env.VITE_WAITLIST_ENDPOINT ?? "").trim()),
 		],
 		server: { port: 5173 },

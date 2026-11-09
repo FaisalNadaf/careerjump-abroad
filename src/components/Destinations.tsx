@@ -4,7 +4,7 @@ import { DESTINATIONS, type Destination } from "../data/destinations";
 import { useDecorativeVideoAllowed, usePrefersReducedMotion } from "../hooks/useMediaQuery";
 import { useReveal } from "../hooks/useReveal";
 import { cx } from "../lib/cx";
-import { ArrowUpRight, ChevronLeft, ChevronRight, Pin } from "./Icon";
+import { ArrowUpRight, ChevronLeft, ChevronRight } from "./Icon";
 import { useWaitlist } from "./waitlist/WaitlistContext";
 import "./Destinations.css";
 
@@ -106,10 +106,6 @@ const DestinationCard = memo(function DestinationCard({
 			<span className="dest-card__shade" aria-hidden="true" />
 			<span className="dest-card__top">
 				<span className="dest-card__name">{destination.name}</span>
-				<span className="dest-card__city">
-					<Pin size={13} />
-					{destination.city}
-				</span>
 			</span>
 			<span className="dest-card__go" aria-hidden="true">
 				<ArrowUpRight size={18} />

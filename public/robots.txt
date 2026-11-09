@@ -1,2 +1,6 @@
+# CareerJump: crawler rules for the whole site.
+# The production build adds a "Sitemap:" line and writes sitemap.xml when
+# VITE_SITE_URL is set (see crawlerFiles in vite.config.ts).
+
 User-agent: *
 Allow: /

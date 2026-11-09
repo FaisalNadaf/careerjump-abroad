@@ -1,5 +1,5 @@
-import { CUBICCODE_URL } from "../config";
-import { ArrowUpRight } from "./Icon";
+import { CONTACT_EMAIL, CUBICCODE_URL } from "../config";
+import { ArrowUpRight, Mail } from "./Icon";
 import { Logo } from "./Logo";
 import "./Footer.css";
 
@@ -17,9 +17,9 @@ export function Footer() {
 					</div>
 				</div>
 
-				{/* Disclosures: two balanced text columns */}
+				{/* Disclosures: two text columns; the contact email fills the space under the shorter left one */}
 				<div className="footer__disclosures">
-					<section aria-labelledby="footer-partnership">
+					<section className="footer__partnership" aria-labelledby="footer-partnership">
 						<h2 id="footer-partnership" className="footer__heading">
 							University Partnership Disclosure
 						</h2>
@@ -32,7 +32,7 @@ export function Footer() {
 							once agreements are finalised.
 						</p>
 					</section>
-					<section aria-labelledby="footer-waitlist">
+					<section className="footer__waitlist" aria-labelledby="footer-waitlist">
 						<h2 id="footer-waitlist" className="footer__heading">
 							Founding Waitlist Information
 						</h2>
@@ -49,6 +49,13 @@ export function Footer() {
 							Registration does not guarantee admission or reserve a seat.
 						</p>
 					</section>
+					<p className="footer__contact">
+						<span className="footer__contact-label">Contact us</span>
+						<a href={`mailto:${CONTACT_EMAIL}`} className="footer__link">
+							<Mail size={16} />
+							{CONTACT_EMAIL}
+						</a>
+					</p>
 				</div>
 
 				<div className="footer__bottom">

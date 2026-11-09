@@ -40,6 +40,26 @@
 	line-height: var(--lh-snug);
 }
 
+.footer__contact {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-1) var(--space-3);
+}
+
+.footer__contact-label {
+	color: var(--ink-muted);
+	font-size: var(--fs-label);
+	font-weight: 700;
+	letter-spacing: var(--ls-label);
+	text-transform: uppercase;
+}
+
+.footer__contact .footer__link {
+	gap: 6px;
+	overflow-wrap: anywhere;
+}
+
 .footer__link {
 	display: inline-flex;
 	align-items: center;
@@ -63,11 +83,30 @@
 }
 
 /* ---------- Disclosures ---------- */
+/* The waitlist column spans both rows; the contact email sits in the space
+   under the shorter partnership column, level with the waitlist's last line. */
 .footer__disclosures {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
+	grid-template-rows: auto 1fr;
+	grid-template-areas:
+		"partnership waitlist"
+		"contact waitlist";
 	gap: var(--space-6) var(--space-12);
 	padding-block: var(--space-6);
+}
+
+.footer__partnership {
+	grid-area: partnership;
+}
+
+.footer__waitlist {
+	grid-area: waitlist;
+}
+
+.footer__disclosures .footer__contact {
+	grid-area: contact;
+	align-self: end;
 }
 
 .footer__heading {
@@ -124,7 +163,13 @@
 		border-left: 0;
 	}
 
+	/* One column: both disclosures, then the contact email */
 	.footer__disclosures {
 		grid-template-columns: minmax(0, 1fr);
+		grid-template-rows: none;
+		grid-template-areas:
+			"partnership"
+			"waitlist"
+			"contact";
 	}
 }

@@ -31,6 +31,12 @@ export const ArrowUpRight = (p: IconProps) => (
 		<path d="M7 17 17 7M9 7h8v8" />
 	</Svg>
 );
+export const Mail = (p: IconProps) => (
+	<Svg {...p}>
+		<rect x="3" y="5" width="18" height="14" rx="2" />
+		<path d="m3 7 9 6 9-6" />
+	</Svg>
+);
 export const ArrowDown = (p: IconProps) => (
 	<Svg {...p}>
 		<path d="M12 5v14M6 13l6 6 6-6" />

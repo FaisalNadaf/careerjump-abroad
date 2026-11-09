@@ -29,7 +29,12 @@ automatically. If you change the waitlist endpoint to another host, rebuild so
 
 ## Set on the host (cannot be done from HTML)
 
-Add these response headers in your platform's config (for example
+On Hostinger or any Apache/LiteSpeed host, `public/.htaccess` already sets
+these and ships with the build. It caches fonts, images and videos for 30 days
+rather than a year (their names don't change when replaced), sends HSTS without
+`includeSubDomains`, and leaves the HTTPS redirect to hPanel's Force HTTPS.
+
+On other platforms, add these response headers in their config (for example
 `vercel.json` → `headers`, Netlify or Cloudflare Pages `_headers`, or nginx):
 
 | Header | Value |
@@ -46,9 +51,9 @@ you extend it, check the browser console for violations, then enforce.
 
 ## Owner actions before launch
 
-- Update the Apps Script `doPost` (see `docs/waitlist-backend.md`): neutralise
-  formulas, validate fields, drop bot submissions, and consider Turnstile or
-  reCAPTCHA.
+- Deploy `apps-script/Code.gs` (see `docs/waitlist-backend.md`). It neutralises
+  formulas, validates fields and separates likely bots into a flagged tab.
+  Consider adding Turnstile or reCAPTCHA as well.
 - Restrict who can view and edit the waitlist Google Sheet, and keep 2-step
   verification on the owning Google account.
 - Publish a privacy notice covering what the form collects, why, who processes

@@ -12,7 +12,8 @@ no UI or animation libraries; motion uses CSS plus one shared
 
 ```bash
 npm install
-cp .env.example .env   # .env is already filled in for the current endpoint
+cp .env.example .env   # then set VITE_WAITLIST_ENDPOINT to your Apps Script URL
+npm run check:waitlist # confirms the URL points at apps-script/Code.gs
 npm run dev            # http://localhost:5173
 npm run build          # type-check, then build to dist/
 npm run preview        # serve the production build
@@ -22,12 +23,14 @@ npm run preview        # serve the production build
 
 | Variable                 | Purpose                                                                 |
 | ------------------------ | ----------------------------------------------------------------------- |
-| `VITE_WAITLIST_ENDPOINT` | Where registrations are sent. See [docs/waitlist-backend.md](docs/waitlist-backend.md). |
-| `VITE_SITE_URL`          | Optional production origin. Adds `<link rel="canonical">`, `og:url` and absolute social-image URLs at build time. Leave it empty until the domain is confirmed. |
+| `VITE_WAITLIST_ENDPOINT` | Web app URL of `apps-script/Code.gs`, which saves registrations to a Google Sheet. Setup: [docs/waitlist-backend.md](docs/waitlist-backend.md#google-sheet-setup). |
+| `VITE_SITE_URL`          | Optional production origin. Adds `<link rel="canonical">`, `og:url`, absolute social-image URLs, `sitemap.xml` and a `Sitemap:` line in `robots.txt` at build time. Leave it empty until the domain is confirmed. |
 
 ## Structure
 
 ```
+apps-script/               Google Apps Script backend: saves waitlist registrations to a Google Sheet
+scripts/                   check-waitlist-endpoint.mjs (npm run check:waitlist)
 index.html                 SEO, Open Graph and Twitter tags, favicons, hero poster preload
 public/
   brand/                   CareerJump logo (navy for light backgrounds, white for dark)
@@ -66,7 +69,8 @@ src/
 - It has 16 fields across 3 steps. Required fields follow the brief: name, email,
   phone, location, designation and consent. To make another field mandatory, set
   `required: true` on it in `src/components/waitlist/schema.ts`.
-- Success is shown only after the backend confirms the save. See
+- Registrations are saved to a Google Sheet by `apps-script/Code.gs`. Success
+  is shown only after the script confirms the save. See
   [docs/waitlist-backend.md](docs/waitlist-backend.md).
 
 ## Security
@@ -77,7 +81,8 @@ src/
 - Every `VITE_*` variable is public (compiled into the bundle). Never put a
   secret in one. `.env` files are git-ignored; copy `.env.example`.
 - The form sends anti-abuse signals (`hp`, `elapsed_ms`) and blocks answers
-  that start like spreadsheet formulas; the Apps Script must enforce both too.
+  that start like spreadsheet formulas; `apps-script/Code.gs` enforces both again
+  on the server.
 
 ## Content guardrails
 
